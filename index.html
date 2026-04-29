@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GAWR PRO</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="https://api.dicebear.com/7.x/shapes/svg?seed=Gawr">
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root { --neon: #ff0000; --bg: #000; }
+        body, html { 
+            margin: 0; padding: 0; height: 100%; 
+            background: var(--bg); color: white; 
+            font-family: -apple-system, system-ui, sans-serif;
+            overflow: hidden;
+        }
+        
+        .app-container { display: flex; flexDirection: column; height: 100vh; }
+        
+        /* HEADER */
+        .header { 
+            padding: 15px; border-bottom: 1px solid var(--neon); 
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 0 15px var(--neon);
+        }
+        .header h1 { margin: 0; font-size: 20px; letter-spacing: 3px; color: var(--neon); }
+
+        /* MESSAGES AREA */
+        .chat-box { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 10px 15px; borderRadius: 15px; max-width: 80%; font-size: 14px; }
+        .msg.sent { align-self: flex-end; background: var(--neon); color: black; font-weight: bold; }
+        .msg.received { align-self: flex-start; background: #222; border: 1px solid var(--neon); }
+
+        /* INPUT AREA */
+        .footer { padding: 15px; display: flex; gap: 10px; border-top: 1px solid #222; }
+        input { 
+            flex: 1; background: #111; border: 1px solid var(--neon); 
+            padding: 12px; border-radius: 20px; color: white; outline: none;
+        }
+        .btn-send { 
+            background: var(--neon); border: none; padding: 10px 20px; 
+            border-radius: 20px; font-weight: bold; cursor: pointer;
+        }
+
+        /* ИНИЦИАЛИЗАЦИЯ ИКОНОК */
+        i { width: 20px; height: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="header">
+            <i data-lucide="menu"></i>
+            <h1>GAWR MESSENGER</h1>
+            <i data-lucide="user"></i>
+        </div>
+
+        <div class="chat-box" id="chat">
+            <div class="msg received">Добро пожаловать в GAWR. Твой мессенджер готов!</div>
+            <div class="msg sent">Добавь меня на главный экран!</div>
+        </div>
+
+        <div class="footer">
+            <input type="text" id="input" placeholder="Напиши что-нибудь...">
+            <button class="btn-send" onclick="sendMessage()">ОТПРАВИТЬ</button>
+        </div>
+    </div>
+
+    <script>
+        // Инициализация иконок Lucide
+        lucide.createIcons();
+
+        function sendMessage() {
+            const input = document.getElementById('input');
+            const chat = document.getElementById('chat');
+            
+            if (input.value.trim() === "") return;
+
+            // Добавляем сообщение в чат
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'msg sent';
+            msgDiv.innerText = input.value;
+            chat.appendChild(msgDiv);
+
+            // Очистка и скролл
+            input.value = "";
+            chat.scrollTop = chat.scrollHeight;
+        }
+    </script>
+</body>
+</html>
